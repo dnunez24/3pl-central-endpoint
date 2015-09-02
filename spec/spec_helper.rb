@@ -1,2 +1,0 @@
-# require 'vcr'
-# require 'webmock'

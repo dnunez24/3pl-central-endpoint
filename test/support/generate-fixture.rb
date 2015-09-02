@@ -3,16 +3,14 @@
 require 'savon'
 require 'json'
 
-action, customer_id, facility_id, start_date = ARGV
 
 class ResponseGenerator
-  def initialize(client:, wsdl:)
-    @client = client if client
-    @wsdl = wsdl if wsdl
+  def initialize(client: nil)
+    @client = client unless client.nil?
   end
 
   def generate(action, **args)
-    send(action, **args)
+    send(action.to_sym, **args)
   end
 
   def small_parcel_orders(args)
@@ -57,4 +55,11 @@ class ResponseGenerator
   end
 end
 
-ResponseGenerator.generate(action)
+action, customer_id, facility_id, start_date = ARGV
+generator = ResponseGenerator.new
+generator.generate(
+  action,
+  customer_id: customer_id,
+  facility_id: facility_id,
+  start_date: start_date
+)
