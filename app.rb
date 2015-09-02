@@ -1,22 +1,23 @@
 require 'sinatra'
 require 'endpoint_base'
 require 'json'
-require 'savon'
+require 'threepl_central_api'
+require 'shipment'
 
 class ThreePLCentralEndpoint < EndpointBase::Sinatra::Base
   configure :production, :development do
     enable :logging
   end
 
-  error Savon::SOAPFault do
-    logger.warn env['sinatra.error'].inspect
-    result 500, "SOAP Fault: #{env['sinatra.error'].message}"
-  end
-
-  error Savon::HTTPError do
-    logger.warn env['sinatra.error'].inspect
-    result 500, "HTTP Error: #{env['sinatra.error'].message}"
-  end
+  # error Savon::SOAPFault do
+  #   logger.warn env['sinatra.error'].inspect
+  #   result 500, "SOAP Fault: #{env['sinatra.error'].message}"
+  # end
+  #
+  # error Savon::HTTPError do
+  #   logger.warn env['sinatra.error'].inspect
+  #   result 500, "HTTP Error: #{env['sinatra.error'].message}"
+  # end
 
   error do
     logger.warn env['sinatra.error'].inspect
@@ -24,7 +25,7 @@ class ThreePLCentralEndpoint < EndpointBase::Sinatra::Base
   end
 
   post '/get_shipments' do
-    @client ||= Savon.client(wsdl: @config[:wsdl], log: true, no_message_tag: true)
+    # @client ||= Savon.client(wsdl: @config[:wsdl], log: true, no_message_tag: true)
 
     msg = {
       'userLoginData' => {
