@@ -105,7 +105,7 @@ DEPENDENCIES
   puma
   rack-test
   rspec (~> 3.0)
-  savon
+  savon (~> 2.0)
   sinatra
   tilt (~> 1.4)
   tilt-jbuilder
