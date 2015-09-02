@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <soap:Fault>
+            <faultcode>soap:Server</faultcode>
+            <faultstring>System.Web.Services.Protocols.SoapException: Server was unable to process request. ---&gt; System.Exception: Exception thrown in Small Parcel for Find. (in OrderMethods) ---&gt; System.Exception: GetWarehouseLocalTime failed to find facilityID 5
+   at ViaSub.WMS.WebServiceTier.DBUtil.GetWarehouseLocalTime(SqlConnection conn, Int32 facilityID)
+   at ViaSub.WMS.WebServiceTier.OrderMethods.SmallParcelForFind(SqlConnection conn, UserLoginData userLoginData, FindOrderCriteria focr, Int32 limitCount, Int32&amp; totalOrders)
+   --- End of inner exception stack trace ---
+   at ViaSub.WMS.WebServiceTier.OrderMethods.SmallParcelForFind(SqlConnection conn, UserLoginData userLoginData, FindOrderCriteria focr, Int32 limitCount, Int32&amp; totalOrders)
+   at ViaSub.WMS.WebServiceTier.Service.SmallParcelForFind(UserLoginData userLoginData, FindOrderCriteria focr, Int32 limitCount, Int32&amp; totalOrders)
+   --- End of inner exception stack trace ---</faultstring>
+            <detail />
+        </soap:Fault>
+    </soap:Body>
+</soap:Envelope>
