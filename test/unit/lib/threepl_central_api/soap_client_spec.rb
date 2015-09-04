@@ -8,14 +8,32 @@ RSpec.describe ThreePLCentralAPI::SOAPClient do
   after(:all)  { savon.unmock! }
 
   context 'when created' do
-    it 'sets default client attributes' do
+    it 'sets default client options' do
       client = ThreePLCentralAPI::SOAPClient.new
-      expect(client.options).to eq client.default_options
+      expect(client.options[:wsdl]).to eq 'https://secure-wms.com/webserviceexternal/contracts.asmx?wsdl'
+      expect(client.options[:log]).to be false
+      expect(client.options[:raise_errors]).to be false
+      expect(client.options[:no_message_tag]).to be true
     end
 
     it 'allows overriding the default WSDL' do
       client = ThreePLCentralAPI::SOAPClient.new wsdl: 'http://example.com?wsdl'
-      expect(client.wsdl).to eq 'http://example.com?wsdl'
+      expect(client.options[:wsdl]).to eq 'http://example.com?wsdl'
+    end
+
+    it 'allows overriding the default log setting' do
+      client = ThreePLCentralAPI::SOAPClient.new log: true
+      expect(client.options[:log]).to be true
+    end
+
+    it 'allows overriding the default error setting' do
+      client = ThreePLCentralAPI::SOAPClient.new raise_errors: true
+      expect(client.options[:raise_errors]).to be true
+    end
+
+    it 'allows overriding the default no message tag setting' do
+      client = ThreePLCentralAPI::SOAPClient.new no_message_tag: false
+      expect(client.options[:no_message_tag]).to be false
     end
   end
 

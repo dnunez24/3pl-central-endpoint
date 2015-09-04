@@ -18,28 +18,16 @@ module ThreePLCentralAPI
       @options ||= default_options
     end
 
-    def wsdl
-      @wsdl ||= 'https://secure-wms.com/webserviceexternal/contracts.asmx?wsdl'
-    end
-
-    def enable_logging
-      @enable_logging ||= false
-    end
-
-    def raise_errors
-      @raise_errors ||= false
-    end
+    private
 
     def default_options
       {
-        wsdl: wsdl,
-        log: enable_logging,
-        raise_errors: raise_errors,
+        wsdl: 'https://secure-wms.com/webserviceexternal/contracts.asmx?wsdl',
+        log: false,
+        raise_errors: false,
         no_message_tag: true
       }
     end
-
-    private
 
     def handle_response(response)
       if response.success?
