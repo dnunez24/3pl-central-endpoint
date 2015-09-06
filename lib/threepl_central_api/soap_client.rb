@@ -2,28 +2,17 @@ require 'savon'
 
 module ThreePLCentralAPI
   class SOAPClient
+    attr_reader :wsdl, :enable_logging, :raise_errors
+
     def initialize(**opts)
-      @options = options.merge(opts) unless opts.empty?
+      options = default_options.merge(opts)
+      @wsdl = options[:wsdl]
+      @enable_logging = options[:enable_logging]
+      @raise_errors = options[:raise_errors]
     end
 
     def call(action, **msg)
       handle_response proxy.call(action, message: msg)
-    end
-
-    def options
-      @options ||= default_options
-    end
-
-    def wsdl
-      options[:wsdl]
-    end
-
-    def enable_logging
-      options[:enable_logging]
-    end
-
-    def raise_errors
-      options[:raise_errors]
     end
 
     private

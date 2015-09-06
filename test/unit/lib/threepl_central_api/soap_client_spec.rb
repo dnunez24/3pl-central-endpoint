@@ -15,18 +15,14 @@ RSpec.describe ThreePLCentralAPI::SOAPClient do
       expect(client.raise_errors).to eq false
     end
 
-    it 'allows overriding the default WSDL' do
-      client = ThreePLCentralAPI::SOAPClient.new wsdl: 'http://example.com?wsdl'
+    it 'allows overriding the default options' do
+      client = ThreePLCentralAPI::SOAPClient.new(
+        wsdl: 'http://example.com?wsdl',
+        enable_logging: true,
+        raise_errors: true
+      )
       expect(client.wsdl).to eq 'http://example.com?wsdl'
-    end
-
-    it 'allows overriding the default log setting' do
-      client = ThreePLCentralAPI::SOAPClient.new enable_logging: true
       expect(client.enable_logging).to eq true
-    end
-
-    it 'allows overriding the default error setting' do
-      client = ThreePLCentralAPI::SOAPClient.new raise_errors: true
       expect(client.raise_errors).to eq true
     end
   end
