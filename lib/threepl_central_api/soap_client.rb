@@ -10,12 +10,20 @@ module ThreePLCentralAPI
       handle_response proxy.call(action, message: msg)
     end
 
-    def proxy
-      @proxy ||= Savon.client(options)
-    end
-
     def options
       @options ||= default_options
+    end
+
+    def wsdl
+      options[:wsdl]
+    end
+
+    def enable_logging
+      options[:enable_logging]
+    end
+
+    def raise_errors
+      options[:raise_errors]
     end
 
     private
@@ -23,10 +31,18 @@ module ThreePLCentralAPI
     def default_options
       {
         wsdl: 'https://secure-wms.com/webserviceexternal/contracts.asmx?wsdl',
-        log: false,
-        raise_errors: false,
-        no_message_tag: true
+        enable_logging: false,
+        raise_errors: false
       }
+    end
+
+    def proxy
+      @proxy ||= Savon.client(
+        wsdl: wsdl,
+        log: enable_logging,
+        raise_errors: raise_errors,
+        no_message_tag: true
+      )
     end
 
     def handle_response(response)
