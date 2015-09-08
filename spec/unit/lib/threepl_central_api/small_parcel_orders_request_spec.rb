@@ -3,14 +3,29 @@ require 'spec_helper'
 RSpec.describe ThreePLCentralAPI::SmallParcelOrdersRequest do
   context 'when created' do
     it 'sets the default API client to a SOAP client' do
+      client_class = ThreePLCentralAPI::SOAPClient
       request = ThreePLCentralAPI::SmallParcelOrdersRequest.new
-      expect(request.client).to be_a ThreePLCentralAPI::SOAPClient
+      expect(request.client).to be_a client_class
+    end
+
+    it 'sets the default API response class' do
+      default_response_class = ThreePLCentralAPI::SmallParcelOrdersResponse
+      request = ThreePLCentralAPI::SmallParcelOrdersRequest.new
+      expect(request.response_class).to eq default_response_class
     end
 
     it 'can use a custom API client' do
       client = double('FakeClient')
       request = ThreePLCentralAPI::SmallParcelOrdersRequest.new client: client
       expect(request.client).to equal client
+    end
+
+    it 'can use a custom response class' do
+      response_class = class_double('Response')
+      request = ThreePLCentralAPI::SmallParcelOrdersRequest.new(
+        response_class: response_class
+      )
+      expect(request.response_class).to equal response_class
     end
   end
 
