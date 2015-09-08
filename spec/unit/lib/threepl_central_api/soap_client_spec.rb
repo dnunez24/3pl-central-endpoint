@@ -28,7 +28,9 @@ RSpec.describe ThreePLCentralAPI::SOAPClient do
   end
 
   describe '#call' do
-    let(:client) { ThreePLCentralAPI::SOAPClient.new }
+    let(:client) do
+      ThreePLCentralAPI::SOAPClient.new
+    end
 
     before(:each) do
       savon.expects(:small_parcel_orders)
@@ -38,18 +40,19 @@ RSpec.describe ThreePLCentralAPI::SOAPClient do
 
     context 'when response is successful' do
       let(:stubbed_response) do
-        File.read 'test/fixtures/small_parcel_orders/success/single_order.xml'
+        File.read 'spec/fixtures/small_parcel_orders/success/single_order.xml'
       end
 
       it 'returns an API response' do
         response = client.call(:small_parcel_orders, one: 1, two: 2)
-        expect(response).to be_a ThreePLCentralAPI::Response
+        expect(response).to be_a Hash
+        expect(response).to include :small_parcel_orders_result
       end
     end
 
     context 'when response is a SOAP fault' do
       let(:stubbed_response) do
-        File.read 'test/fixtures/small_parcel_orders/failure/bad_param.xml'
+        File.read 'spec/fixtures/small_parcel_orders/failure/bad_param.xml'
       end
 
       it 'raises an API error' do
@@ -62,7 +65,7 @@ RSpec.describe ThreePLCentralAPI::SOAPClient do
 
     context 'when response is an HTTP error' do
       let(:fixture) do
-        File.read 'test/fixtures/http_error.html'
+        File.read 'spec/fixtures/http_error.html'
       end
 
       let(:stubbed_response) do
