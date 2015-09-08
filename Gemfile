@@ -7,14 +7,12 @@ gem 'tilt', '~> 1.4'
 gem 'tilt-jbuilder', require: 'sinatra/jbuilder'
 gem 'savon', '~> 2.0'
 
-group :development do
-  gem 'pry'
-end
-
-group :test do
+group :development, :test do
   gem 'rspec', '~> 3.0'
+  gem 'guard-rspec', require: false
   gem 'rack-test'
   gem 'webmock'
+  gem 'pry'
 end
 
 group :production do
