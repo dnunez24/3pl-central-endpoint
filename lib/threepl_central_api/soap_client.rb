@@ -12,7 +12,8 @@ module ThreePLCentralAPI
     end
 
     def call(action, **msg)
-      handle_response proxy.call(action, message: msg)
+      @response = proxy.call(action, message: msg)
+      handle_response
     end
 
     private
@@ -34,20 +35,29 @@ module ThreePLCentralAPI
       )
     end
 
-    def handle_response(response)
-      if response.success?
-        ThreePLCentralAPI::Response.new
+    def handle_response
+      if @response.success?
+        response_body
       else
-        handle_error(response)
+        handle_error
       end
     end
 
-    def handle_error(response)
-      soap_fault = response.soap_fault
-      http_error = response.http_error
-
-      error = soap_fault || http_error
+    def handle_error
+      error = response_soap_fault || response_http_error
       fail ThreePLCentralAPI::Error, error.message
+    end
+
+    def response_body
+      @response.body
+    end
+
+    def response_http_error
+      @response.http_error
+    end
+
+    def response_soap_fault
+      @response.soap_fault
     end
   end
 end
