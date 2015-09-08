@@ -5,10 +5,7 @@ module ThreePLCentralAPI
     attr_reader :wsdl, :enable_logging, :raise_errors
 
     def initialize(**opts)
-      options = default_options.merge(opts)
-      @wsdl = options[:wsdl]
-      @enable_logging = options[:enable_logging]
-      @raise_errors = options[:raise_errors]
+      parse_options(opts)
     end
 
     def call(action, **msg)
@@ -24,6 +21,14 @@ module ThreePLCentralAPI
         enable_logging: false,
         raise_errors: false
       }
+    end
+
+    def parse_options(opts)
+      options = default_options.merge(opts)
+      @wsdl = options[:wsdl]
+      @enable_logging = options[:enable_logging]
+      @raise_errors = options[:raise_errors]
+      @response_class = options[:response_class]
     end
 
     def proxy
